@@ -1,0 +1,17 @@
+{
+  "name": "practicejs",
+  "version": "1.0.0",
+  "description": "A website with JavaScript practice problems",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode=development",
+    "test": "jest --runInBand"
+  },
+  "author": "Leon Montealegre",
+  "license": "ISC",
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.0.2",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.4.3"
+  }
+}
