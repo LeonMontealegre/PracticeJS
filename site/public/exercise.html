@@ -7,23 +7,49 @@
         <meta name="theme-color" content="#999">
 
         <link rel="stylesheet" href="css/stylesheet.css">
-        <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+        <!-- <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
         <link rel="manifest" href="img/manifest.json">
-        <link rel="mask-icon" href="img/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="mask-icon" href="img/safari-pinned-tab.svg" color="#5bbad5"> -->
 
         <title>Practice JS</title>
     </head>
     <body>
+        <div class="header">
+            <h1><a href="index.html">Practice JS</a><h1>
+            <h3>CodingBat exercises converted to JavaScript</h3>
+        </div>
 
-        <div id="editor"></div>
+        <div id="container" class="container">
+            <div id="problem" class="problem">
+                <h2 id="section-title">Warmup 1</h2>
+                <h3 id="problem-title">sleepIn</h3>
+
+                <div id="problem-description">
+                    The parameter weekday is true if it is a weekday, and the parameter vacation is true if we are on vacation. We sleep in if it is not a weekday or we're on vacation. Return true if we sleep in.
+                </div>
+                <div id="problem-examples">
+                    <h4>Examples</h4>
+                    <ol id="problem-examples-list">
+                        <li>sleepIn(true, true) → true</li>
+                        <li>sleepIn(true, false) → false</li>
+                        <li>sleepIn(false, true) → true</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div>
+                <div id="editor" class="editor"></div>
+            </div>
+        </div>
 
         <script src="ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
         <script>
             var editor = ace.edit("editor");
             editor.setTheme("ace/theme/monokai");
             editor.session.setMode("ace/mode/javascript");
+            editor.setFontSize(16);
         </script>
     </body>
 
