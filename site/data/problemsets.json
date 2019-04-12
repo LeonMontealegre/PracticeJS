@@ -1,0 +1,32 @@
+{
+    "rows": [
+        {
+            "sections": [
+                {
+                    "title": "Warmup 1",
+                    "progress": 0
+                },
+                {
+                    "title": "Warmup 2",
+                    "progress": 0
+                }
+            ]
+        },
+        {
+            "sections": [
+                {
+                    "title": "String 1",
+                    "progress": 0
+                },
+                {
+                    "title": "String 2",
+                    "progress": 0
+                },
+                {
+                    "title": "String 3",
+                    "progress": 0
+                }
+            ]
+        }
+    ]
+}

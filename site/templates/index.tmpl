@@ -23,7 +23,19 @@
 
         <table class="sections">
             <tbody>
-                <tr colspan="6">
+                {{ range $i, $row := .Rows }}
+                    <tr colspan="{{ $row.Colspan }}">
+                    {{ range $j, $section := $row.Sections }}
+                        <td colspan="{{ $section.Colspan }}">
+                            <div>
+                                <h2>{{ $section.Title }}</h2>
+                                <progress value="{{ $section.Progress }}" max="100"></progress>
+                            </div>
+                        </td>
+                    {{ end }}
+                    </tr>
+                {{ end }}
+                <!-- <tr colspan="6">
                     <td colspan="3">
                         <div>
                             <h2 id="section-title">Warmup 1</h2>
@@ -45,7 +57,7 @@
                 <tr colspan="6">
                     <td colspan="3">Array 1</td>
                     <td colspan="3">Array 2</td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
 
