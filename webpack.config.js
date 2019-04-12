@@ -11,6 +11,8 @@ var config = {
     plugins: [
         new CopyWebpackPlugin([
             { from: 'site/public/index.html', to: 'index.html' },
+            { from: 'site/public/exercise.html', to: 'exercise.html' },
+            { from: 'site/public/ace-builds/', to: 'ace-builds/' },
             { from: 'site/public/data/', to: 'data/' },
             { from: 'site/public/css/', to: 'css/' },
             { from: 'site/public/img/', to: 'img/' }

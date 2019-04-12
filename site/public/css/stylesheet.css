@@ -1,13 +1,17 @@
-@font-face { font-family: Walkway; src: url("Walkway.ttf"); }
+/* @font-face { font-family: Walkway; src: url("Walkway.ttf"); } */
 
 body, html {
     background-color: #fff;
-    color: #fff;
+    color: #000;
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
     overflow: hidden;
+}
+
+.header {
+    border-bottom: 1px solid black;
 }
 
 #editor {
