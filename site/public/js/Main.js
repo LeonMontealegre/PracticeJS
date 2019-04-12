@@ -19,4 +19,6 @@ function parseURLParams(url) {
     return parms;
 }
 
-console.log(parseURLParams(window.location.search));
+const data = parseURLParams(window.location.search);
+
+console.log(data);
