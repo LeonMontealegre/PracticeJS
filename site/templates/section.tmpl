@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
         <meta name="theme-color" content="#999">
 
-        <link rel="stylesheet" href="css/stylesheet.css">
+        <link rel="stylesheet" href="/css/stylesheet.css">
         <!-- <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
@@ -23,24 +23,24 @@
 
         <table class="sections">
             <tbody>
-                {{ range $i, $row := .Rows }}
-                    <tr colspan="{{ $row.Colspan }}">
-                    {{ range $j, $section := $row.Sections }}
-                        <td colspan="{{ $section.Colspan }}">
-                            <a href="/section/{{ $section.Id }}">
+                {{ range $i, $problem := .Problems }}
+                    {{ if mod $i 3 }}
+                    <tr colspan="3">
+                    {{ end }}
+                        <td colspan="1">
+                            <a href="/">
                                 <div>
-                                    <h2>{{ $section.Title }}</h2>
-                                    <progress value="{{ $section.Progress }}" max="100"></progress>
+                                    <h2>{{ $problem.Id }}</h2>
+                                    <input type="checkbox" {{ if $problem.Complete }}checked{{ end }}></input>
                                 </div>
                             </a>
                         </td>
-                    {{ end }}
+                    {{ if mod2 $i 3 }}
                     </tr>
+                    {{ end }}
                 {{ end }}
             </tbody>
         </table>
-
-        <script src="js/Main.js"></script>
 
     </body>
 

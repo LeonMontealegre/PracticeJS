@@ -1,6 +1,7 @@
 package main
 
 import (
+    "html/template"
     "github.com/LeonMontealegre/PracticeJS/site/app/handlers"
     "github.com/gin-gonic/gin"
     "log"
@@ -8,6 +9,11 @@ import (
 
 func main() {
     router := gin.Default()
+
+    router.SetFuncMap(template.FuncMap{
+        "mod":  func(i, j int) bool { return i%j == 0 },
+        "mod2": func(i, j int) bool { return i%j == 2 },
+    })
 
     router.Use(gin.Logger())
     router.Use(gin.Recovery())
@@ -19,6 +25,7 @@ func main() {
     router.LoadHTMLGlob("../templates/*")
 
     router.GET("/", handlers.IndexHandler)
+    router.GET("/section/:section", handlers.SectionHandler)
 
     for true {
         err := router.Run("127.0.0.1:8081")

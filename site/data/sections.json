@@ -3,10 +3,12 @@
         {
             "sections": [
                 {
+                    "id": "warmup1",
                     "title": "Warmup 1",
                     "progress": 0
                 },
                 {
+                    "id": "warmup2",
                     "title": "Warmup 2",
                     "progress": 0
                 }
@@ -15,14 +17,17 @@
         {
             "sections": [
                 {
+                    "id": "string1",
                     "title": "String 1",
                     "progress": 0
                 },
                 {
+                    "id": "string2",
                     "title": "String 2",
                     "progress": 0
                 },
                 {
+                    "id": "string3",
                     "title": "String 3",
                     "progress": 0
                 }
