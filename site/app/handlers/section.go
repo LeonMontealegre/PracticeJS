@@ -12,13 +12,13 @@ import (
     "strings"
 )
 
-type Problem struct {
+type ProblemDescription struct {
     Id       string `json:"id"`
     Complete bool   `json:"complete"`
 }
 
 type ProblemSet struct {
-    Problems []Problem `json:"problems"`
+    Problems []ProblemDescription `json:"problems"`
 }
 
 // var validPath = regexp.MustCompile("^/(section)/([a-zA-Z0-9]+)$")
