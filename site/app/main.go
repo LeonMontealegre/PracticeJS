@@ -26,6 +26,7 @@ func main() {
 
     router.GET("/", handlers.IndexHandler)
     router.GET("/section/:section", handlers.SectionHandler)
+    router.GET("/section/:section/:problem", handlers.ProblemHandler)
 
     for true {
         err := router.Run("127.0.0.1:8081")

@@ -2,14 +2,14 @@ package handlers
 
 import (
     // "regexp"
-    "encoding/json"
+    // "encoding/json"
     "github.com/gin-gonic/gin"
-    "path/filepath"
-    "io/ioutil"
-    "log"
+    // "path/filepath"
+    // "io/ioutil"
+    // "log"
     "net/http"
-    "os"
-    "strings"
+    // "os"
+    // "strings"
 )
 
 type Test struct {
@@ -29,37 +29,38 @@ var problems map[string]Problem = make(map[string]Problem)
 
 func init() {
     // Load sections from JSON files
-    err := filepath.Walk("../data/sections/", func(path string, info os.FileInfo, err error) error {
-        if info.IsDir() && path[len(path)-1] != '/' {
-            var problemSet ProblemSet
-
-            file, err := ioutil.ReadFile(path + "/problems.json")
-            if err != nil {
-                log.Printf("File error %s: %v\n", path, err)
-                os.Exit(1)
-            }
-
-            err = json.Unmarshal(file, &problemSet)
-            if err != nil {
-                log.Printf("Failed to unmarshall json %s: %v\n", path, err)
-                os.Exit(1)
-            }
-
-            split := strings.Split(path, "/")
-            section := split[len(split)-1]
-
-            problemSets[section] = problemSet
-        }
-
-        return nil
-    })
-    if err != nil {
-        log.Printf("Failed to walk through directory: %v\n", err)
-        os.Exit(1)
-    }
+    // err := filepath.Walk("../data/sections/", func(path string, info os.FileInfo, err error) error {
+    //     log.Printf("%s", path);
+    //     if info.IsDir() && path[len(path)-1] != '/' {
+    //         var problemSet ProblemSet
+    //
+    //         file, err := ioutil.ReadFile(path + "/problems.json")
+    //         if err != nil {
+    //             log.Printf("File error %s: %v\n", path, err)
+    //             os.Exit(1)
+    //         }
+    //
+    //         err = json.Unmarshal(file, &problemSet)
+    //         if err != nil {
+    //             log.Printf("Failed to unmarshall json %s: %v\n", path, err)
+    //             os.Exit(1)
+    //         }
+    //
+    //         split := strings.Split(path, "/")
+    //         section := split[len(split)-1]
+    //
+    //         problemSets[section] = problemSet
+    //     }
+    //
+    //     return nil
+    // })
+    // if err != nil {
+    //     log.Printf("Failed to walk through directory: %v\n", err)
+    //     os.Exit(1)
+    // }
 }
 
-func SectionHandler(c *gin.Context) {
+func ProblemHandler(c *gin.Context) {
     if val, ok := problemSets[c.Param("section")]; ok {
         c.HTML(http.StatusOK, "section.tmpl", val)
     } else {

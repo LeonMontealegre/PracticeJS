@@ -1,10 +1,8 @@
 package handlers
 
 import (
-    // "regexp"
     "encoding/json"
     "github.com/gin-gonic/gin"
-    "path/filepath"
     "io/ioutil"
     "log"
     "net/http"
@@ -21,30 +19,30 @@ type ProblemSet struct {
     Problems []ProblemDescription `json:"problems"`
 }
 
-// var validPath = regexp.MustCompile("^/(section)/([a-zA-Z0-9]+)$")
-
 var problemSets map[string]ProblemSet = make(map[string]ProblemSet)
 
-// func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
-//     m := validPath.FindStringSubmatch(r.URL.Path)
-//     if m == nil {
-//         http.NotFound(w, r)
-//         return "", errors.New("Invalid Page Title")
-//     }
-//     return m[2], nil // The title is the second subexpression.
-// }
-
 func init() {
-    // Load sections from JSON files
-    err := filepath.Walk("../data/sections/", func(path string, info os.FileInfo, err error) error {
-        if info.IsDir() && path[len(path)-1] != '/' {
-            var problemSet ProblemSet
+    const PATH = "../data/sections/"
+
+    // Get each section directory
+    sections, err := ioutil.ReadDir(PATH)
+    if err != nil {
+        log.Printf("Could not open directory '%s': %v\n", PATH, err)
+        os.Exit(1)
+    }
+
+    // Load each section from JSON files
+    for _, file := range sections {
+        if file.IsDir() {
+            var path = PATH + file.Name()
 
             file, err := ioutil.ReadFile(path + "/problems.json")
             if err != nil {
                 log.Printf("File error %s: %v\n", path, err)
                 os.Exit(1)
             }
+            
+            var problemSet ProblemSet
 
             err = json.Unmarshal(file, &problemSet)
             if err != nil {
@@ -57,12 +55,6 @@ func init() {
 
             problemSets[section] = problemSet
         }
-
-        return nil
-    })
-    if err != nil {
-        log.Printf("Failed to walk through directory: %v\n", err)
-        os.Exit(1)
     }
 }
 
