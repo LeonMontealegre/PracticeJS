@@ -5,6 +5,7 @@
 
 # Thumbnails
 ._*
+*.exe
 node_modules
 site/app/main
 package-lock.json
