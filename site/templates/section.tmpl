@@ -23,12 +23,13 @@
 
         <table class="sections">
             <tbody>
+                {{ $sectionid := .SectionID }}
                 {{ range $i, $problem := .Problems }}
                     {{ if mod $i 3 }}
                     <tr colspan="3">
                     {{ end }}
                         <td colspan="1">
-                            <a href="/">
+                            <a href="/section/{{ $sectionid }}/{{ $problem.Id }}">
                                 <div>
                                     <h2>{{ $problem.Id }}</h2>
                                     <input type="checkbox" {{ if $problem.Complete }}checked{{ end }}></input>
