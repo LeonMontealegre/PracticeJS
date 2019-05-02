@@ -9,7 +9,7 @@ import (
     "os"
 )
 
-type Section struct {
+type SectionInfo struct {
     Id       string `json:"id"`
     Title    string `json:"title"`
     Progress uint   `json:"progress"`
@@ -18,7 +18,7 @@ type Section struct {
 
 type SectionRow struct {
     Colspan  uint
-    Sections []Section `json:"sections"`
+    Sections []SectionInfo `json:"sections"`
 }
 
 type SectionSet struct {

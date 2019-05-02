@@ -24,7 +24,7 @@
         <table class="sections">
             <tbody>
                 {{ $sectionid := .SectionID }}
-                {{ range $i, $problem := .Problems }}
+                {{ range $i, $problem := .ProblemDescriptions }}
                     {{ if mod $i 3 }}
                     <tr colspan="3">
                     {{ end }}

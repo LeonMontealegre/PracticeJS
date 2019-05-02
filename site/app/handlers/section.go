@@ -29,13 +29,13 @@ type ProblemDescription struct {
     Complete bool   `json:"complete"`
 }
 
-type ProblemSet struct {
-    Problems  []ProblemDescription `json:"problems"`
-    SectionID string
+type Section struct {
+    SectionID           string
+    Problems            map[string]Problem
+    ProblemDescriptions []ProblemDescription `json:"problems"`
 }
 
-var problemSets map[string]ProblemSet = make(map[string]ProblemSet)
-var problems map[string]Problem = make(map[string]Problem)
+var sections map[string]Section = make(map[string]Section)
 
 func handleError(err error, msg string) {
     if err != nil {
@@ -45,28 +45,46 @@ func handleError(err error, msg string) {
     }
 }
 
+func loadProblem(path string, sectionName string, problemName string) {
+    var problem Problem
+
+    // Load problem
+    file, err := ioutil.ReadFile(path + "/problems/" + problemName + ".json")
+    handleError(err, fmt.Sprintf("File error %s\n", path))
+    err = json.Unmarshal(file, &problem)
+    handleError(err, fmt.Sprintf("Failed to unmarshall section json %s\n", path))
+
+    sections[sectionName].Problems[problemName] = problem
+}
+
+func loadSection(path string, sectionName string) {
+    var section Section
+
+    // Load section
+    file, err := ioutil.ReadFile(path + "/problems.json")
+    handleError(err, fmt.Sprintf("File error %s\n", path))
+    err = json.Unmarshal(file, &section)
+    handleError(err, fmt.Sprintf("Failed to unmarshall section json %s\n", path))
+
+    section.SectionID = sectionName;
+    section.Problems = make(map[string]Problem)
+    sections[sectionName] = section
+}
+
 func init() {
     const PATH = "../data/sections/"
 
     // Get each section directory
-    sections, err := ioutil.ReadDir(PATH)
+    sectionFiles, err := ioutil.ReadDir(PATH)
     handleError(err, fmt.Sprintf("Failed to load sections directory %s\n", PATH))
 
     // Load each section from JSON files
-    for _, info := range sections {
+    for _, info := range sectionFiles {
         if info.IsDir() {
-            var path = PATH + info.Name()
-            var problemSet ProblemSet
+            sectionName := info.Name()
+            path := PATH + sectionName
 
-            // Load section
-            file, err := ioutil.ReadFile(path + "/problems.json")
-            handleError(err, fmt.Sprintf("File error %s\n", path))
-            err = json.Unmarshal(file, &problemSet)
-            handleError(err, fmt.Sprintf("Failed to unmarshall section json %s\n", path))
-
-            section := info.Name()
-            problemSet.SectionID = section;
-            problemSets[section] = problemSet
+            loadSection(path, sectionName)
 
             // Get each problem
             problemFiles, err := ioutil.ReadDir(path + "/problems/")
@@ -74,26 +92,16 @@ func init() {
 
             // Load each problem from JSON files
             for _, info := range problemFiles {
-                var problem Problem
-
-                // Load problem
-                file, err := ioutil.ReadFile(path + "/problems/" + info.Name())
-                handleError(err, fmt.Sprintf("File error %s\n", path))
-                err = json.Unmarshal(file, &problem)
-                handleError(err, fmt.Sprintf("Failed to unmarshall section json %s\n", path))
-
-
                 problemName := info.Name()
-                problemName = problemName[0:strings.LastIndex(problemName, ".")]
-                log.Println("loaded problem: " + section + "/" + problemName)
-                problems[section + "/" + problemName] = problem
+                problemName = problemName[0:strings.LastIndex(problemName, ".")] // Remove extension
+                loadProblem(path, sectionName, problemName)
             }
         }
     }
 }
 
 func SectionHandler(c *gin.Context) {
-    if val, ok := problemSets[c.Param("section")]; ok {
+    if val, ok := sections[c.Param("section")]; ok {
         c.HTML(http.StatusOK, "section.tmpl", val)
     } else {
         c.HTML(http.StatusNotFound, "error.tmpl", gin.H{"message": "Invalid session state."})
@@ -101,9 +109,8 @@ func SectionHandler(c *gin.Context) {
 }
 
 func ProblemHandler(c *gin.Context) {
-    log.Println(c.Param("section")+"/"+c.Param("problem"))
-    if val, ok := problems[c.Param("section")+"/"+c.Param("problem")]; ok {
-        c.HTML(http.StatusOK, "exercise.tmpl", val)
+    if val, ok := sections[c.Param("section")].Problems[c.Param("problem")]; ok {
+        c.HTML(http.StatusOK, "problem.tmpl", val)
     } else {
         c.HTML(http.StatusNotFound, "error.tmpl", gin.H{"message": "Invalid session state."})
     }
